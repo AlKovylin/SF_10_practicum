@@ -2,9 +2,11 @@
 {
     class Program
     {
+        static ILogger logger;
+
         static void Main(string[] args)
         {
-            Logger logger = new Logger();
+            logger = new Logger();
             Calculator calculator = new Calculator(logger);
 
             calculator.Pusk();

@@ -2,11 +2,11 @@
 
 namespace SF_10_practicum
 {
-    class Calculator : ISum
+    public class Calculator : ISum
     {
-        Logger logger { get; set; }
+        ILogger logger { get; }
 
-        public Calculator(Logger logger)
+        public Calculator(ILogger logger)
         {
             this.logger = logger;
         }
@@ -19,7 +19,7 @@ namespace SF_10_practicum
         public void Pusk()
         {
 
-            logger.PrintMessage("\tПРОГРАММА СЛОЖЕНИЯ ДВУХ ЧИСЕЛ\n", Logger.typeMess.Norm);
+            logger.Event("\tПРОГРАММА СЛОЖЕНИЯ ДВУХ ЧИСЕЛ\n");
 
             while (true)
             {
@@ -28,7 +28,7 @@ namespace SF_10_practicum
 
                 float result = Sum(x, y);
 
-                logger.PrintMessage($"\n{x} + {y} = {result}\n", Logger.typeMess.Norm);
+                logger.Event($"\n{x} + {y} = {result}\n");
 
                 if (!ReadKey())
                     break;
@@ -42,19 +42,19 @@ namespace SF_10_practicum
                 bool isValid = false;
                 while (!isValid)
                 {
-                    logger.PrintMessage(message, Logger.typeMess.Norm);
+                    logger.Event(message);
                     string input = Console.ReadLine();
                     isValid = float.TryParse(input, out float number);
                     if (isValid)
                         return number;
 
-                    logger.PrintMessage("Введено некорректное значение. Повторите ввод.\n", Logger.typeMess.Err);
+                    logger.Error("Введено некорректное значение. Повторите ввод.\n");
                 }
                 return -1;
             }
             catch (Exception ex)
             {
-                logger.PrintMessage("Ошибка." + ex.Message, Logger.typeMess.Err);
+                logger.Error("Ошибка." + ex.Message);
                 return 0;
             }
         }
@@ -66,7 +66,7 @@ namespace SF_10_practicum
                 bool YorN = false;
                 bool isValid = false;
 
-                logger.PrintMessage("\nПродолжить? (Y/N): ", Logger.typeMess.Norm);
+                logger.Event("\nПродолжить? (Y/N): ");
 
                 while (!isValid)
                 {
@@ -82,7 +82,7 @@ namespace SF_10_practicum
                             isValid = true;
                             break;
                         default:
-                            logger.PrintMessage("Команда не зарегистрирована. Вводите только Y/N: ", Logger.typeMess.Err);
+                            logger.Error("Команда не зарегистрирована. Вводите только Y/N: ");
                             break;
                     }
                 }
@@ -90,7 +90,7 @@ namespace SF_10_practicum
             }
             catch (Exception ex)
             {
-                logger.PrintMessage("Ошибка." + ex.Message, Logger.typeMess.Norm);
+                logger.Error("Ошибка." + ex.Message);
                 return false;
             }
         }
